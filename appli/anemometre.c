@@ -24,24 +24,47 @@ uint32_t  RecordTime = 2; //Define Measuring Time (Seconds)
 void countup()
 {
   rotation++;
+  if(rotation == 10){
+  		end = HAL_GetTick();
+  		duration = end - begin;
+  		flag_duration = TRUE;
+  		begin = end;
+  		rotation = 0;
+  	}
 }
 
 void Vent_init(void)
 {
 	BSP_GPIO_PinCfg(ANEMO_GPIO, ANEMO_PIN, GPIO_MODE_IT_RISING,GPIO_PULLUP,GPIO_SPEED_FREQ_HIGH);
+	EXTIT_set_callback(&countup, EXTI_gpiopin_to_pin_number(ANEMO_PIN), TRUE);
 }
 
 int Vent_vitesse(void)
 {
+
+	//enable(it);
+	if(flag_duration)
+	{
+		flag_duration = FALSE;
+		printf("%d\n", duration);
+	}
+
+}
+
+
+	/*
 	rotation = 0 ;
 	//HAL_GPIO_EXTI_Callback(ANEMO_PIN)
-	EXTIT_set_callback(&countup, EXTI_gpiopin_to_pin_number(ANEMO_PIN), TRUE);
+
 	HAL_Delay(1000 * RecordTime);
 	EXTIT_set_callback(&countup, EXTI_gpiopin_to_pin_number(ANEMO_PIN), FALSE);
 	vitesse = (float)rotation / (float)RecordTime * 2,4;
 
 	return (int)vitesse;
-}
+	*/
+
+
+
 
 
 void donnee(void)
