@@ -1639,9 +1639,9 @@ int Vent_vitesse(void)
 {
  80012dc:	b598      	push	{r3, r4, r7, lr}
  80012de:	af00      	add	r7, sp, #0
-	rotation = 0 ;
+	rotation = 10 ;
  80012e0:	4b20      	ldr	r3, [pc, #128]	; (8001364 <Vent_vitesse+0x88>)
- 80012e2:	2200      	movs	r2, #0
+ 80012e2:	220a      	movs	r2, #10
  80012e4:	601a      	str	r2, [r3, #0]
 	//HAL_GPIO_EXTI_Callback(ANEMO_PIN)
 	EXTIT_set_callback(&countup, EXTI_gpiopin_to_pin_number(ANEMO_PIN), TRUE);

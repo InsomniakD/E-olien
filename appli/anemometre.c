@@ -33,7 +33,7 @@ void Vent_init(void)
 
 int Vent_vitesse(void)
 {
-	rotation = 0 ;
+	rotation = 10 ;
 	//HAL_GPIO_EXTI_Callback(ANEMO_PIN)
 	EXTIT_set_callback(&countup, EXTI_gpiopin_to_pin_number(ANEMO_PIN), TRUE);
 	HAL_Delay(1000 * RecordTime);
