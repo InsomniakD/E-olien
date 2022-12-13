@@ -50,3 +50,8 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+Debug/E-olien.bin
+Debug/E-olien.list
+Debug/makefile
+Debug/projet-f103.bin
+Debug/projet-f103.list

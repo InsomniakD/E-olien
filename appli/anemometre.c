@@ -19,7 +19,6 @@
 
 float vitesse;
 uint32_t rotation;
-uint32_t  RecordTime = 2; //Define Measuring Time (Seconds)
 bool_e flag_duration;
 double duration;
 double begin;
@@ -45,11 +44,10 @@ void Vent_init(void)
 
 int Vent_vitesse(void){
 
-	//enable(it);
 	if(flag_duration)
 	{
 		flag_duration = FALSE;
-		printf("%f\n", duration);
+		printf("%lf\n", duration);
 	}
 }
 
