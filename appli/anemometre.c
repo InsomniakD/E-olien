@@ -20,6 +20,10 @@
 float vitesse;
 uint32_t rotation;
 uint32_t  RecordTime = 2; //Define Measuring Time (Seconds)
+bool_e flag_duration;
+double duration;
+double begin;
+double end;
 
 void countup()
 {
@@ -39,16 +43,14 @@ void Vent_init(void)
 	EXTIT_set_callback(&countup, EXTI_gpiopin_to_pin_number(ANEMO_PIN), TRUE);
 }
 
-int Vent_vitesse(void)
-{
+int Vent_vitesse(void){
 
 	//enable(it);
 	if(flag_duration)
 	{
 		flag_duration = FALSE;
-		printf("%d\n", duration);
+		printf("%f\n", duration);
 	}
-
 }
 
 
