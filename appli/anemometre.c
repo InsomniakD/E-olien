@@ -27,7 +27,7 @@ uint16_t end;
 void countup()
 {
   rotation++;
-  if(rotation == 10){  //time out when end is upper than uint 16
+  if(rotation == 6){  //time out when end is upper than uint 16
   		end = HAL_GetTick();
   		duration = end - begin;
   		flag_duration = TRUE;
@@ -48,7 +48,7 @@ void Vent_vitesse(void){
 	{
 		flag_duration = FALSE;
 		printf("%d\n", duration);
-		printf("La vitesse du vent est : | vitesse = %d km/h\n", 10/2*2.4/duration);
+		printf("La vitesse du vent est : | vitesse = %d km/h\n", (3*24*100/duration)); // 2.4 * 1000 --> 24 * 100 pour eviter la virgule et un bug
 	}
 }
 
