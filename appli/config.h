@@ -66,12 +66,12 @@
 #define USE_BSP_TIMER			1 //Utilisation de stm32f1_timer.c/h
 
 
-#define USE_ADC					0
+#define USE_ADC					1
 	//Ces configurations permettent d'activer les entrées analogiques souhaitées.
 	//16 entrées analogiques peuvent être activées maximum.
 	//2 entrées analogiques doivent être activées minimum. (Vref est un choix possible si vous utilisez une seule entrée)
 	#define USE_AN0			1	//Broche correspondante : PA0
-	#define USE_AN1			0	//Broche correspondante : PA1
+	#define USE_AN1			1	//Broche correspondante : PA1
 	#define USE_AN2			0	//Broche correspondante : PA2	//Sur la Nucleo, cette broche n'est pas câblée !
 	#define USE_AN3			0	//Broche correspondante : PA3	//Sur la Nucleo, cette broche n'est pas câblée !
 	#define USE_AN4			0	//Broche correspondante : PA4
@@ -128,6 +128,8 @@
 #define USE_MPU6050				0//Accéléromètre et Gyroscope
 #define USE_DHT11				1
 #define USE_ANEMOMETRE			1
+#define USE_TENSION_INTENSITE	1
+
 
 #define USE_MATRIX_KEYBOARD		0
 #define USE_MATRIX_LED			0
