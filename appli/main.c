@@ -63,7 +63,8 @@ int main(void)
 	{
 		//DHT11_demo();
 		//Vent_vitesse();
-		tension();
+		//tension();
+		intensite();
 		HAL_Delay(500);
 		if(!t)
 		{
