@@ -1,20 +1,84 @@
-/*
- * pression.h
- *
- *  Created on: 13 déc. 2022
- *      Author: timot
- */
+#ifndef BMP180_H
+#define BMP180_H 100
 
-#ifndef PRESSIONTEMP_H_
-#define PRESSIONTEMP_H_
+/* C++ detection */
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include "config.h"
 #if USE_BMP180
+
 #include "stm32f1_i2c.h"
+
+/**
+ * @addtogroup STM32F4xx_Libraries
+ * @{
+ */
+
+/**
+ * @defgroup BMP180
+ * @brief    BMP180 pressure sensor library for STM32F4xx - http://stm32f4-discovery.com/2014/09/library-37-bmp180-pressure-sensor-stm32f4
+ * @{
+ *
+ * You can read temperature and pressure with this sensor.
+ *
+ * \par Reading procedure
+ *
+ * First you need to read temperature, then you are able to read pressure.
+ * This is quite inefficient, because you can not read both at the same time.
+ *
+ * @note Sensor uses the same register for data for temperature and pressure.
+ *       This is not good, but it can be used in various small projects.
+ *
+ * \par Default pinout
+ *
+@verbatim
+BMP180    STM32F4   DESCRIPTION
+
+SCL       PA8       I2C3 Serial clock
+SDA       PC9       I2C3 Serial data
+@endverbatim
+ *
+ * @warning Make sure, that you connect VCC to 3.3V and not to 5V, because you can blow device.
+ *
+ * \par Custom I2C settings
+ *
+ * If you want to change default I2C settings, open defines.h file and edit lines below:
+ *
+@verbatim
+//Select custom I2C
+#define BMP180_I2C             I2C3
+#define BMP180_I2C_PINSPACK    I2C_PinsPack_1
+@endverbatim
+ *
+ * \par Changelog
+ *
+@verbatim
+ Version 1.0
+  - First release
+@endverbatim
+ *
+ * \par Dependencies
+ *
+@verbatim
+ - STM32F4xx
+ - STM32F4xx RCC
+ - defines.h
+ - TM I2C
+ - math.h
+@endverbatim
+ */
 
 #include "stm32f1xx.h"
 #include "stm32f1_i2c.h"
 #include "math.h"
+
+/**
+ * @defgroup BMP180_Macros
+ * @brief    Library defines
+ * @{
+ */
 
 /* Default I2C pin */
 #ifndef BMP180_I2C
@@ -51,7 +115,15 @@
 #define BMP180_PRESSURE_2_DELAY		13000
 #define BMP180_PRESSURE_3_DELAY		25000
 
+/**
+ * @}
+ */
 
+/**
+ * @defgroup BMP180_Typedefs
+ * @brief    Library Typedefs
+ * @{
+ */
 
 /**
  * @brief  BMP180 result enumerations
@@ -62,12 +134,11 @@ typedef enum {
 	BMP180_Result_LibraryNotInitialized /*!< Library is not initialized */
 } BMP180_Result_t;
 
-
 /**
-* @brief  Options for oversampling settings
-* @note   This settings differs in samples for one result
-*         and sample time for one result
-*/
+ * @brief  Options for oversampling settings
+ * @note   This settings differs in samples for one result
+ *         and sample time for one result
+ */
 typedef enum {
 	BMP180_Oversampling_UltraLowPower = 0x00,      /*!< 1 sample for result */
 	BMP180_Oversampling_Standard = 0x01,           /*!< 2 samples for result */
@@ -86,9 +157,20 @@ typedef struct {
 	BMP180_Oversampling_t Oversampling; /*!< Oversampling for pressure calculation */
 } BMP180_t;
 
+/**
+ * @}
+ */
+
+/**
+ * @defgroup BMP180_Functions
+ * @brief    Library Functions
+ * @{
+ */
+
 
 //Fonction de démo...
-void pression_mesure(void);
+void BMP180_demo(void);
+
 
 /**
  * @brief  Initializes BMP180 pressure sensor
@@ -97,5 +179,69 @@ void pression_mesure(void);
  */
 BMP180_Result_t BMP180_Init(BMP180_t* BMP180_Data);
 
+/**
+ * @brief  Starts temperature sensor on BMP180
+ * @param  *BMP180_Data: Pointer to @ref BMP180_t structure
+ * @retval Member of @ref BMP180_Result_t
+ */
+BMP180_Result_t BMP180_StartTemperature(BMP180_t* BMP180_Data);
 
-#endif /* PRESSIONTEMP_H_ */
+/**
+ * @brief  Reads temperature from BMP180 sensor
+ * @note   Temperature has 0.1 degrees Celcius resolution
+ * @param  *BMP180_Data: Pointer to @ref BMP180_t structure
+ * @retval Member of @ref BMP180_Result_t
+ */
+BMP180_Result_t BMP180_ReadTemperature(BMP180_t* BMP180_Data);
+
+/**
+ * @brief  Starts pressure measurement on BMP180 sensor
+ * @param  *BMP180_Data: Pointer to @ref BMP180_t structure
+ * @param  Oversampling: Oversampling option for pressure calculation.
+ *            This parameter can be a value of @ref BMP180_Oversampling_t enumeration
+ * @note   Calculation time depends on selected oversampling
+ * @retval Member of @ref BMP180_Result_t
+ */
+BMP180_Result_t BMP180_StartPressure(BMP180_t* BMP180_Data, BMP180_Oversampling_t Oversampling);
+
+/**
+ * @brief  Reads pressure from BMP180 sensor and calculate it
+ * @param  *BMP180_Data: Pointer to @ref BMP180_t structure
+ * @retval Member of @ref BMP180_Result_t
+ */
+BMP180_Result_t BMP180_ReadPressure(BMP180_t* BMP180_Data);
+
+/**
+ * @brief  Calculates pressure above sea level in pascals
+ *
+ * This is good, if you read pressure from sensor at known altitude, not altitude provided from sensor.
+ * Altitude from sensor is calculated in fact, that pressure above the sea is 101325 Pascals.
+ * So, if you know your pressure, and you use calculated altitude, you will not get real pressure above the sea.
+ *
+ * @warning You need calculated pressure from sensor, and known altitude (from other sensor or GPS data, or whatever)
+ *          and then you are able to calculate pressure above the sea level.
+ * @param  pressure: Pressure at known altitude in units of pascals
+ * @param  altitude: Known altitude in units of meters
+ * @retval Pressure above the sea in units of pascals
+ */
+uint32_t BMP180_GetPressureAtSeaLevel(uint32_t pressure, float altitude);
+
+/**
+ * @}
+ */
+
+/**
+ * @}
+ */
+
+/**
+ * @}
+ */
+
+/* C++ detection */
+#ifdef __cplusplus
+}
+#endif
+
+#endif
+#endif
