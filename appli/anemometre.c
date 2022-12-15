@@ -16,6 +16,7 @@
 #include "anemometre.h"
 #include "systick.h"
 
+#define TIMEOUT	5000 // edit when rotation count increase
 
 float vitesse;
 uint32_t rotation;
@@ -48,7 +49,18 @@ void Vent_vitesse(void){
 	{
 		flag_duration = FALSE;
 		printf("%d\n", duration);
-		printf("La vitesse du vent est : | vitesse = %d km/h\n", (3*24*100/duration)); // 2.4 * 1000 --> 24 * 100 pour eviter la virgule et un bug
+		if(duration)
+			printf("La vitesse du vent est : | vitesse = %d km/h\n", (6*24*100/duration)); // 2.4 * 1000(ms to sec) --> 24 * 100 pour eviter la virgule et un bug
+		else
+			printf("La vitesse du vent est trop faible\n");
+	}
+
+	if(HAL_GetTick() - begin > TIMEOUT)
+	{
+		rotation = 0;
+		begin = HAL_GetTick();
+		flag_duration = TRUE;
+		duration = 0;
 	}
 }
 
