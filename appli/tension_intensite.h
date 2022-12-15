@@ -19,6 +19,7 @@
 #include "stm32f1_adc.h"
 
 void tension(void);
+void intensite(void);
 
 #endif /* TENSION_INTENSITE_H_ */
 #endif
