@@ -55,19 +55,17 @@ int main(void)
 
 	//On ajoute la fonction process_ms à la liste des fonctions appelées automatiquement chaque ms par la routine d'interruption du périphérique SYSTICK
 	Systick_add_callback_function(&process_ms);
-
 	//EPAPER_demo();
 	//Vent_init();
-	ADC_init();
+	//ADC_init();
+
 	while(1)	//boucle de tâche de fond
 	{
 		//DHT11_demo();
 		//Vent_vitesse();
-		//tension_intensite_puissance();
-		//intensite();
-		moyenne();
-		//BMP180_demo();
-		//HAL_Delay(1500);
+		//tension();
+		BMP180_demo();
+		HAL_Delay(1500);
 		if(!t)
 		{
 
