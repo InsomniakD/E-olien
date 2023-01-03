@@ -25,22 +25,16 @@
 
 void BMP180_demo(void)
 {
-	//char buffer[50];
 	// Working structure
 	BMP180_t BMP180_Data;
+
 	if (BMP180_Init(&BMP180_Data) == BMP180_Result_Ok) {
 		// Init OK
-		printf("BMP180 configured and ready to use\n\n");
 	} else {
 		// Device error
-		printf("BMP180 error\n\n");
+		printf("BMP180 error in init\n\n");
 		return;
 		}
-	// Imagine, we are at 1000 meters above the sea
-	// And we read pressure of 95000 pascals
-	// Pressure right on the sea is
-	printf( "Pressure right above the sea: %ld pascals\n", BMP180_GetPressureAtSeaLevel(95000, 1000));
-	printf("Data were calculated from pressure %ld pascals at know altitude %d meters\n\n\n", 95000, 1000);
 
 	// Start temperature conversion
 	BMP180_StartTemperature(&BMP180_Data);
@@ -61,75 +55,11 @@ void BMP180_demo(void)
 	BMP180_ReadPressure(&BMP180_Data);
 
 	// Format data and print to USART
-	printf("Temp: %2ld degrees\nPressure: %6ld Pascals\nAltitude at current pressure: %2ld meters\n\n",
+	printf("Temp: %2ld degrees\nPressure: %6ld Pascals\n\n",
 		(uint32_t)(BMP180_Data.Temperature),
-		BMP180_Data.Pressure,
-		(uint32_t)(BMP180_Data.Altitude)
+		BMP180_Data.Pressure/100
 		);
-	// Send to USART
-	//printf(buffer);
 }
-
-
-
-/*
-void BMP180_demo(void)
-{
-	char buffer[50];
-	// Working structure
-	BMP180_t BMP180_Data;
-
-	// Initialize BMP180 pressure sensor
-	if (BMP180_Init(&BMP180_Data) == BMP180_Result_Ok) {
-		// Init OK
-		printf("BMP180 configured and ready to use\n\n");
-	} else {
-		// Device error
-		printf("BMP180 error\n\n");
-		return;
-	}
-
-	// Imagine, we are at 1000 meters above the sea
-	// And we read pressure of 95000 pascals
-	// Pressure right on the sea is
-	printf( "Pressure right above the sea: %ld pascals\n", BMP180_GetPressureAtSeaLevel(95000, 1000));
-	printf("Data were calculated from pressure %ld pascals at know altitude %d meters\n\n\n", 95000, 1000);
-
-	while (1)
-	{
-		// Start temperature conversion
-		BMP180_StartTemperature(&BMP180_Data);
-
-		// Wait delay in microseconds
-		// You can do other things here instead of delay
-		HAL_Delay(BMP180_Data.Delay/1000+1);
-
-		// Read temperature first
-		BMP180_ReadTemperature(&BMP180_Data);
-
-		// Start pressure conversion at ultra high resolution
-		BMP180_StartPressure(&BMP180_Data, BMP180_Oversampling_UltraHighResolution);
-
-		// Wait delay in microseconds
-		// You can do other things here instead of delay
-		HAL_Delay(BMP180_Data.Delay/1000+1);
-
-		// Read pressure value
-		BMP180_ReadPressure(&BMP180_Data);
-
-		// Format data and print to USART
-		sprintf(buffer, "Temp: %2.3f degrees\nPressure: %6ld Pascals\nAltitude at current pressure: %3.2f meters\n\n",
-			BMP180_Data.Temperature,
-			BMP180_Data.Pressure,
-			BMP180_Data.Altitude
-		);
-		// Send to USART
-		printf(buffer);
-		// Some delay
-		HAL_Delay(1000);
-	}
-}
-*/
 
 /* EEPROM values */
 int16_t AC1, AC2, AC3, B1, B2, MB, MC, MD;
@@ -289,9 +219,6 @@ BMP180_Result_t BMP180_ReadPressure(BMP180_t* BMP180_Data) {
 
 	/* Save pressure */
 	BMP180_Data->Pressure = p;
-
-	/* Calculate altitude */
-	BMP180_Data->Altitude = (float)44330.0 * (float)((float)1.0 - (float)pow((float)p * BMP180_1_101325, 0.19029495));
 
 	/* Return OK */
 	return BMP180_Result_Ok;
