@@ -57,13 +57,15 @@ int main(void)
 	Systick_add_callback_function(&process_ms);
 
 	//EPAPER_demo();
-	Vent_init();
-	//ADC_init();
+	//Vent_init();
+	ADC_init();
+
 	while(1)	//boucle de tâche de fond
 	{
 		//DHT11_demo();
-		Vent_vitesse();
+		//Vent_vitesse();
 		//tension();
+		intensite();
 		HAL_Delay(500);
 		if(!t)
 		{
