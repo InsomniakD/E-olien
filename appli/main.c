@@ -61,10 +61,18 @@ int main(void)
 
 	while(1)	//boucle de tâche de fond
 	{
-		//DHT11_demo();
-		//Vent_vitesse();
+
 		//tension();
+		printf("BMP180 : \n\n");
 		BMP180_demo();
+		/*
+		printf("DTH_11 : \n\n");
+		humidite_valeur();
+		printf("Vitesse du vent : \n\n");
+		Vent_vitesse();
+		printf("Mesure tension intensité et puissance : \n\n");
+		tension_intensite_puissance();
+		*/
 		HAL_Delay(1500);
 		if(!t)
 		{

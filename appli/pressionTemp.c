@@ -34,7 +34,7 @@ void BMP180_demo(void)
 		// Device error
 		printf("BMP180 error in init\n\n");
 		return;
-		}
+	}
 
 	// Start temperature conversion
 	BMP180_StartTemperature(&BMP180_Data);
