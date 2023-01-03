@@ -150,7 +150,6 @@ typedef enum {
  * @brief  BMP180 main structure
  */
 typedef struct {
-	float Altitude;                        /*!< Calculated altitude at given read pressure */
 	uint32_t Pressure;                     /*!< Pressure in pascals */
 	float Temperature;                     /*!< Temperature in degrees */
 	uint16_t Delay;                        /*!< Number of microseconds, that sensor needs to calculate data that you request to */
