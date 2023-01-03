@@ -20,7 +20,8 @@
 
 void tension(void);
 void intensite(void);
-void puissance(void);
+void tension_intensite_puissance(void);
+void moyenne(void);
 
 #endif /* TENSION_INTENSITE_H_ */
 #endif

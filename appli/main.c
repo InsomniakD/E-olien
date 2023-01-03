@@ -58,14 +58,16 @@ int main(void)
 
 	//EPAPER_demo();
 	//Vent_init();
-	//ADC_init();
+	ADC_init();
 	while(1)	//boucle de tâche de fond
 	{
 		//DHT11_demo();
 		//Vent_vitesse();
-		//tension();
-		BMP180_demo();
-		HAL_Delay(1500);
+		//tension_intensite_puissance();
+		//intensite();
+		moyenne();
+		//BMP180_demo();
+		//HAL_Delay(1500);
 		if(!t)
 		{
 
