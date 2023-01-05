@@ -14,16 +14,7 @@
 #include "systick.h"
 
 
-
-void writeLED(bool_e b)
-{
-	HAL_GPIO_WritePin(LED_GREEN_GPIO, LED_GREEN_PIN, b);
-}
-
-bool_e readButton(void)
-{
-	return !HAL_GPIO_ReadPin(BLUE_BUTTON_GPIO, BLUE_BUTTON_PIN);
-}
+int test;
 
 static volatile uint32_t t = 0;
 void process_ms(void)
@@ -56,7 +47,7 @@ int main(void)
 	//On ajoute la fonction process_ms à la liste des fonctions appelées automatiquement chaque ms par la routine d'interruption du périphérique SYSTICK
 	Systick_add_callback_function(&process_ms);
 	//EPAPER_demo();
-	//Vent_init();
+	Vent_init();
 	ADC_init(); //Pour la moyenne de tension, intensité et puissance
 
 	while(1)	//boucle de tâche de fond
@@ -68,19 +59,14 @@ int main(void)
 		//humidite_valeur();
 
 		//printf("Vitesse du vent : \n\n");
-		//Vent_vitesse();
-
+		test = Vent_vitesse(); // ATTENTION NECESSITE L'ACTIVATION DE VENT_INIT()
+		printf("vent : | vitesse = %d km/h\n", test);
 		//printf("Mesure tension intensité et puissance : \n\n");
 		//if (vitesse != 0)
 		//tension();
 		moyenne(); // ATENTION activer ADC_init() avec
 
 		HAL_Delay(1500);
-		if(!t)
-		{
 
-			t = 200;
-			HAL_GPIO_TogglePin(LED_GREEN_GPIO, LED_GREEN_PIN);
-		}
 	}
 }
