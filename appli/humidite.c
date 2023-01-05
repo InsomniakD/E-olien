@@ -54,15 +54,18 @@ void humidite_valeur(void)
 			case END_OK:
  				debug_printf("DHT11 humidité=%d,%d%% | temperature=%d,%d°\n",humidity_int, humidity_dec, temperature_int, temperature_dec);
  				HAL_Delay(1500);
-				break;
+				//break;
+				return;
 			case END_ERROR:
 				debug_printf("DHT11 read error (h=%d,%d | t=%d,%d)\n", humidity_int, humidity_dec, temperature_int, temperature_dec);
 				HAL_Delay(1500);
-				break;
+				//break;
+				return;
 			case END_TIMEOUT:
 				debug_printf("DHT11 timeout (h=%d,%d | t=%d,%d)\n", humidity_int, humidity_dec, temperature_int, temperature_dec);
 				HAL_Delay(1500);
-				break;
+				//break;
+				return;
 			default:
 				break;
 		}

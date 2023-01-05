@@ -41,6 +41,9 @@ uint32_t moyPrvsP;
 uint32_t moyPrvsT;
 uint32_t moyPrvsI;
 
+uint32_t durationti = 5000; //temps de mesure de tension
+uint32_t beginti;
+
 uint32_t i=0;
 
 void tension(void)
@@ -64,6 +67,7 @@ void intensite(void)
 
 void tension_intensite_puissance(void)
 	{
+
 	while(1)
 			{
 				HAL_Delay(500);
@@ -80,9 +84,9 @@ void tension_intensite_puissance(void)
 
 void moyenne(void)
 	{
-	while(1)
-				{
-				HAL_Delay(200);
+	beginti = HAL_GetTick();
+	while(1){
+			if(HAL_GetTick() - beginti < durationti){
 				valueT = ADC_getValue(ADC_TENSION_CHANNEL);
 				valueI = ADC_getValue(ADC_INTENSITE_CHANNEL);
 				valeurT=((uint32_t)(valueT)*11*3300)/4096;//on le convertit en mV pour pouvoir faire la conversion et rester en entier, on a 3300 mV en max, on multiplie par 11 parce que c'est la valeur de notre pont diviseur de tension, et on divise par 4086 parce que on aura une valeur sur 4096
@@ -92,7 +96,7 @@ void moyenne(void)
 				addI=addI+valeurI;
 				addP=addP+valeurP;
 				i++;
-				if(i==32){
+				if(i>=32){
 					i=0; //remise à zero du compteur
 					if(moyPrvsP==0 && moyPrvsT==0 && moyPrvsP==0){
 						moyT=addT/32;
@@ -103,15 +107,21 @@ void moyenne(void)
 					moyI=(addI+moyPrvsI)/33;
 					moyP=(addP+moyPrvsP)/33;
 					}
-					debug_printf("La tension moyenne est : %d.%02dV\n", moyT/1000,(moyT%1000)/10);
-					debug_printf("L'intensité moyenne est : %dmA\n", moyI);
-					debug_printf("La puissance moyenne générée est : %dmW\n", moyP/10000);
 					moyPrvsP=moyP;
 					moyPrvsT=moyT;
 					moyPrvsI=moyI;
 					addT=addI=addP=0;
 					}
-
+				HAL_Delay(200);
 				}
+			else{
+				//return moyT, moyI, moyP;
+				debug_printf("La tension moyenne est : %d.%02dV\n", moyT/1000,(moyT%1000)/10);
+				debug_printf("L'intensité moyenne est : %dmA\n", moyI);
+				debug_printf("La puissance moyenne générée est : %dmW\n", moyP/10000);
+				return;
+			}
+		}
+
 	}
 
