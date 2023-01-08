@@ -38,7 +38,7 @@ static volatile uint8_t index = 0;
 static volatile uint32_t t = 0;
 
 
-void humidite_valeur(void)
+uint8_t humidite_valeur(void)
 {
 	static uint8_t humidity_int;
 	static uint8_t humidity_dec;
@@ -55,17 +55,17 @@ void humidite_valeur(void)
  				debug_printf("DHT11 humidité=%d,%d%% | temperature=%d,%d°\n",humidity_int, humidity_dec, temperature_int, temperature_dec);
  				HAL_Delay(1500);
 				//break;
-				return;
+				return humidity_int;
 			case END_ERROR:
 				debug_printf("DHT11 read error (h=%d,%d | t=%d,%d)\n", humidity_int, humidity_dec, temperature_int, temperature_dec);
 				HAL_Delay(1500);
 				//break;
-				return;
+				return NULL;
 			case END_TIMEOUT:
 				debug_printf("DHT11 timeout (h=%d,%d | t=%d,%d)\n", humidity_int, humidity_dec, temperature_int, temperature_dec);
 				HAL_Delay(1500);
 				//break;
-				return;
+				return NULL;
 			default:
 				break;
 		}

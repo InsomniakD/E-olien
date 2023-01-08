@@ -16,6 +16,7 @@
 
 uint32_t wind_speed;
 uint32_t *valeur_BMP180;
+uint8_t humidity;
 
 static volatile uint32_t t = 0;
 void process_ms(void)
@@ -58,8 +59,8 @@ int main(void)
 		valeur_BMP180 = BMP180_demo();
 		printf("(main)Temp: %2ld degrees\nPressure: %6ld hePascals\n\n",valeur_BMP180[0],valeur_BMP180[1]);
 		//printf("DTH_11 : \n\n");
-		//humidite_valeur();
-
+		humidity = humidite_valeur();
+		printf("DHT11 humidité=%d %",humidity);
 		//printf("Vitesse du vent : \n\n");
 		//wind_speed = Vent_vitesse(); // ATTENTION NECESSITE L'ACTIVATION DE VENT_INIT()
 		//printf("vent : | vitesse = %d km/h\n", wind_speed);

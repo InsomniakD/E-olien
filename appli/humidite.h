@@ -14,7 +14,7 @@
 #include "macro_types.h"
 #include "stm32f1xx_hal.h"
 
-void humidite_valeur(void);
+uint8_t humidite_valeur(void);
 void humidite_init(GPIO_TypeDef * GPIOx, uint16_t GPIO_PIN_x);
 
 running_e humidite_state_machine_get_datas(uint8_t * humidity_int, uint8_t * humidity_dec, uint8_t * temperature_int, uint8_t * temperature_dec);
