@@ -168,7 +168,7 @@ typedef struct {
 
 
 //Fonction de démo...
-void BMP180_demo(void);
+uint32_t *BMP180_demo(void);
 
 
 /**

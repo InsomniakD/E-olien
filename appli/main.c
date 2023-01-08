@@ -14,7 +14,8 @@
 #include "systick.h"
 
 
-int test;
+uint32_t wind_speed;
+uint32_t *valeur_BMP180;
 
 static volatile uint32_t t = 0;
 void process_ms(void)
@@ -47,24 +48,25 @@ int main(void)
 	//On ajoute la fonction process_ms à la liste des fonctions appelées automatiquement chaque ms par la routine d'interruption du périphérique SYSTICK
 	Systick_add_callback_function(&process_ms);
 	//EPAPER_demo();
-	Vent_init();
-	ADC_init(); //Pour la moyenne de tension, intensité et puissance
+	//Vent_init();
+	//ADC_init(); //Pour la moyenne de tension, intensité et puissance
 
 	while(1)	//boucle de tâche de fond
 	{
 
 		//printf("BMP180 : \n\n");
-		//BMP180_demo();
+		valeur_BMP180 = BMP180_demo();
+		printf("(main)Temp: %2ld degrees\nPressure: %6ld hePascals\n\n",valeur_BMP180[0],valeur_BMP180[1]);
 		//printf("DTH_11 : \n\n");
 		//humidite_valeur();
 
 		//printf("Vitesse du vent : \n\n");
-		test = Vent_vitesse(); // ATTENTION NECESSITE L'ACTIVATION DE VENT_INIT()
-		printf("vent : | vitesse = %d km/h\n", test);
+		//wind_speed = Vent_vitesse(); // ATTENTION NECESSITE L'ACTIVATION DE VENT_INIT()
+		//printf("vent : | vitesse = %d km/h\n", wind_speed);
 		//printf("Mesure tension intensité et puissance : \n\n");
 		//if (vitesse != 0)
 		//tension();
-		moyenne(); // ATENTION activer ADC_init() avec
+		//moyenne(); // ATENTION activer ADC_init() avec
 
 		HAL_Delay(1500);
 

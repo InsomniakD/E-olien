@@ -20,10 +20,10 @@
 #define BMP180_1_65536  ((float) 0.0000152587890625)
 #define BMP180_1_101325 ((float) 0.00000986923266726)
 
-
+uint32_t variables[2];
 //Fonction blocante, pour démo.
 
-void BMP180_demo(void)
+uint32_t *BMP180_demo(void)
 {
 	// Working structure
 	BMP180_t BMP180_Data;
@@ -33,7 +33,9 @@ void BMP180_demo(void)
 	} else {
 		// Device error
 		printf("BMP180 error in init\n\n");
-		return;
+		variables[0] = 0;
+		variables[1] = 0;
+		return variables;
 	}
 
 	// Start temperature conversion
@@ -55,10 +57,13 @@ void BMP180_demo(void)
 	BMP180_ReadPressure(&BMP180_Data);
 
 	// Format data and print to USART
-	printf("Temp: %2ld degrees\nPressure: %6ld Pascals\n\n",
+	printf("Temp: %2ld degrees\nPressure: %6ld hePascals\n\n",
 		(uint32_t)(BMP180_Data.Temperature),
 		BMP180_Data.Pressure/100
 		);
+	variables[0] = (uint32_t)(BMP180_Data.Temperature);
+	variables[1] = BMP180_Data.Pressure/100;
+	return variables;
 }
 
 /* EEPROM values */
