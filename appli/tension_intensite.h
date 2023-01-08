@@ -21,7 +21,7 @@
 void tension(void);
 void intensite(void);
 void tension_intensite_puissance(void);
-void moyenne(void);
+uint32_t *moyenne(void);
 
 #endif /* TENSION_INTENSITE_H_ */
 #endif

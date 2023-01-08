@@ -46,6 +46,8 @@ uint32_t beginti;
 
 uint32_t i=0;
 
+uint32_t valeurs_moyennes[4];
+
 void tension(void)
 	{
 		valueT = ADC_getValue(ADC_TENSION_CHANNEL);
@@ -82,7 +84,7 @@ void tension_intensite_puissance(void)
 				}
 	}
 
-void moyenne(void)
+uint32_t *moyenne(void)
 	{
 	beginti = HAL_GetTick();
 	while(1){
@@ -116,10 +118,12 @@ void moyenne(void)
 				}
 			else{
 				//return moyT, moyI, moyP;
-				debug_printf("La tension moyenne est : %d.%02dV\n", moyT/1000,(moyT%1000)/10);
-				debug_printf("L'intensité moyenne est : %dmA\n", moyI);
-				debug_printf("La puissance moyenne générée est : %dmW\n", moyP/10000);
-				return;
+				debug_printf("La tension moyenne est : %d.%02dV\nL'intensité moyenne est : %dmA\nLa puissance moyenne générée est : %dmW\n", moyT/1000,(moyT%1000)/10, moyI, moyP/10000);
+				valeurs_moyennes[0] = moyT/1000;
+				valeurs_moyennes[1] = (moyT%1000)/10;
+				valeurs_moyennes[2] = moyI;
+				valeurs_moyennes[3] = moyP/10000;
+				return valeurs_moyennes;
 			}
 		}
 
