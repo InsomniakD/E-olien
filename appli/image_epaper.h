@@ -7,7 +7,6 @@
 
 #include "config.h"
 #if USE_EPAPER
-extern const unsigned char IMAGE_BUTTERFLY[];
 extern const unsigned char gImage_eole_1[];
 extern const unsigned char gImage_eole_2[];
 extern const unsigned char gImage_eole_3[];

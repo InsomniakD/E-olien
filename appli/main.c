@@ -18,6 +18,14 @@ uint32_t wind_speed;
 uint32_t *valeur_BMP180;
 uint8_t humidity;
 uint32_t *moyenneTIP;
+//char temperatureC;
+//char humiditeC;
+//char pressionC;
+//char tensionC;
+//char puissanceC;
+//char vitesseC;
+
+
 
 static volatile uint32_t t = 0;
 void process_ms(void)
@@ -59,6 +67,8 @@ int main(void)
 	printf("BMP180 : \n\n");
 		//valeur_BMP180 = BMP180_demo();
 		//printf("(main)Temp: %2ld degrees\nPressure: %6ld hePascals\n\n",valeur_BMP180[0],valeur_BMP180[1]);
+		//pressionC = ("Pression : ",(char)valeur_BMP180[0],"hPa");
+		//temperatureC = ("Temperature : ",(char)valeur_BMP180[1],"hpa");
 		//printf("DTH_11 : \n\n");
 		//humidity = humidite_valeur();
 		//printf("(main) DHT11 humidité=%d%%",humidity);
@@ -71,8 +81,9 @@ int main(void)
 		//moyenneTIP = moyenne(); // ATENTION activer ADC_init() avec
 		//printf(" (main) La tension moyenne est : %d.%02dV\nL'intensité moyenne est : %dmA\nLa puissance moyenne générée est : %dmW\n", moyenneTIP[0], moyenneTIP[1], moyenneTIP[2], moyenneTIP[3]);
 		//if refresh_dealy //mise a jour de l'écran toutes les 10min
+
 		EPAPER_display_info();
-		HAL_Delay(1500);
+		HAL_Delay(5000);
 
 	}
 }
