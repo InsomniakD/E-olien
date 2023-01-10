@@ -51,12 +51,12 @@ int main(void)
 	Systick_add_callback_function(&process_ms);
 	//EPAPER_demo();
 	//Vent_init();
-	ADC_init(); //Pour la moyenne de tension, intensité et puissance
+	//ADC_init(); //Pour la moyenne de tension, intensité et puissance
 
 	while(1)	//boucle de tâche de fond
 	{
 
-		//printf("BMP180 : \n\n");
+	printf("BMP180 : \n\n");
 		//valeur_BMP180 = BMP180_demo();
 		//printf("(main)Temp: %2ld degrees\nPressure: %6ld hePascals\n\n",valeur_BMP180[0],valeur_BMP180[1]);
 		//printf("DTH_11 : \n\n");
@@ -68,9 +68,10 @@ int main(void)
 		//printf("Mesure tension intensité et puissance : \n\n");
 		//if (vitesse != 0)
 		//tension();
-		moyenneTIP = moyenne(); // ATENTION activer ADC_init() avec
-		printf(" (main) La tension moyenne est : %d.%02dV\nL'intensité moyenne est : %dmA\nLa puissance moyenne générée est : %dmW\n", moyenneTIP[0], moyenneTIP[1], moyenneTIP[2], moyenneTIP[3]);
+		//moyenneTIP = moyenne(); // ATENTION activer ADC_init() avec
+		//printf(" (main) La tension moyenne est : %d.%02dV\nL'intensité moyenne est : %dmA\nLa puissance moyenne générée est : %dmW\n", moyenneTIP[0], moyenneTIP[1], moyenneTIP[2], moyenneTIP[3]);
 		//if refresh_dealy //mise a jour de l'écran toutes les 10min
+		EPAPER_demo();
 		HAL_Delay(1500);
 
 	}

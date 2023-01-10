@@ -54,13 +54,19 @@ int EPAPER_demo(void)
 	while(1)
 	{
 		/* Display the frame_buffer */
-		EPD_DisplayFrame(&epd, frame_buffer);
+		EPD_DisplayFrame(&epd, gImage_eole1);
 
-		HAL_Delay(5000);
+		HAL_Delay(2000);
 		/* Display the image buffer */
-		EPD_DisplayFrame(&epd, IMAGE_BUTTERFLY);
+		EPD_DisplayFrame(&epd, gImage_eole2);
 		
-		HAL_Delay(5000);
+		HAL_Delay(2000);
+
+		EPD_DisplayFrame(&epd,gImage_eole3);
+		HAL_Delay(2000);
+
+		EPD_DisplayFrame(&epd,gImage_eole4);
+		HAL_Delay(2000);
 	}
 }
 
