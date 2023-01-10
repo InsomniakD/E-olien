@@ -71,7 +71,7 @@ int main(void)
 		//moyenneTIP = moyenne(); // ATENTION activer ADC_init() avec
 		//printf(" (main) La tension moyenne est : %d.%02dV\nL'intensité moyenne est : %dmA\nLa puissance moyenne générée est : %dmW\n", moyenneTIP[0], moyenneTIP[1], moyenneTIP[2], moyenneTIP[3]);
 		//if refresh_dealy //mise a jour de l'écran toutes les 10min
-		EPAPER_demo();
+		EPAPER_display_info();
 		HAL_Delay(1500);
 
 	}
