@@ -50,11 +50,11 @@ int Vent_vitesse(void){
 			flag_duration = FALSE;
 			//printf("%d\n", duration);
 			if(duration){
-				printf("La vitesse du vent est : | vitesse = %d km/h\n", (6*24*100/duration)); // 2.4 * 1000(ms to sec) --> 24 * 100 pour eviter la virgule et un bug
+				//printf("La vitesse du vent est : | vitesse = %d km/h\n", (6*24*100/duration)); // 2.4 * 1000(ms to sec) --> 24 * 100 pour eviter la virgule et un bug
 				return 6*24*100/duration;
 			}
 			else{
-				printf("La vitesse du vent est trop faible\n");
+				//printf("La vitesse du vent est trop faible\n");
 				return 0;
 			}
 		}

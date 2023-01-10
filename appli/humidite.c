@@ -52,17 +52,17 @@ uint8_t humidite_valeur(void)
 		switch(humidite_state_machine_get_datas(&humidity_int, &humidity_dec, &temperature_int, &temperature_dec))
 		{
 			case END_OK:
- 				debug_printf("DHT11 humidité=%d,%d%% | temperature=%d,%d°\n",humidity_int, humidity_dec, temperature_int, temperature_dec);
+ 				//debug_printf("DHT11 humidité=%d,%d%% | temperature=%d,%d°\n",humidity_int, humidity_dec, temperature_int, temperature_dec);
  				HAL_Delay(1500);
 				//break;
 				return humidity_int;
 			case END_ERROR:
-				debug_printf("DHT11 read error (h=%d,%d | t=%d,%d)\n", humidity_int, humidity_dec, temperature_int, temperature_dec);
+				//debug_printf("DHT11 read error (h=%d,%d | t=%d,%d)\n", humidity_int, humidity_dec, temperature_int, temperature_dec);
 				HAL_Delay(1500);
 				//break;
 				return NULL;
 			case END_TIMEOUT:
-				debug_printf("DHT11 timeout (h=%d,%d | t=%d,%d)\n", humidity_int, humidity_dec, temperature_int, temperature_dec);
+				//debug_printf("DHT11 timeout (h=%d,%d | t=%d,%d)\n", humidity_int, humidity_dec, temperature_int, temperature_dec);
 				HAL_Delay(1500);
 				//break;
 				return NULL;

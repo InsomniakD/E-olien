@@ -32,7 +32,7 @@ uint32_t *BMP180_demo(void)
 		// Init OK
 	} else {
 		// Device error
-		printf("BMP180 error in init\n\n");
+		//printf("BMP180 error in init\n\n");
 		variables[0] = 0;
 		variables[1] = 0;
 		return variables;
@@ -57,10 +57,7 @@ uint32_t *BMP180_demo(void)
 	BMP180_ReadPressure(&BMP180_Data);
 
 	// Format data and print to USART
-	printf("Temp: %2ld degrees\nPressure: %6ld hePascals\n\n",
-		(uint32_t)(BMP180_Data.Temperature),
-		BMP180_Data.Pressure/100
-		);
+	//printf("Temp: %2ld degrees\nPressure: %6ld hePascals\n\n",(uint32_t)(BMP180_Data.Temperature),BMP180_Data.Pressure/100);
 	variables[0] = (uint32_t)(BMP180_Data.Temperature);
 	variables[1] = BMP180_Data.Pressure/100;
 	return variables;
