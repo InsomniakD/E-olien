@@ -30,10 +30,10 @@
 #define COLORED      0
 #define UNCOLORED    1
 
-int EPAPER_display_info()
+int EPAPER_display_info(char humichar)
 {
-	static unsigned char frame_buffer[(EPD_WIDTH * EPD_HEIGHT / 8)];
-
+	//static unsigned char frame_buffer[(EPD_WIDTH * EPD_HEIGHT / 8)];
+	static unsigned char frame_buffer[(200*300 / 8)]; //7500
 	EPD epd;
 	if (EPD_Init(&epd) != 0)
 	{
@@ -41,22 +41,28 @@ int EPAPER_display_info()
 		while(1);
 	}
 
-	for(int i = 0; i<15000; i++){
-		frame_buffer[i] = gImage_eole_1[i];
+	for(int i = 0; i<7500; i++){
+		frame_buffer[i] = gImage_testText[i];
 	}
 
+	for(int i = 0; i<300; i++)
+		frame_buffer[200*i/8] = 0xFF;
+
+
+
 	Paint paint;
-	Paint_Init(&paint, frame_buffer, epd.width, epd.height);
+	Paint_Init(&paint, frame_buffer, 200, 300);
 	//Paint_Clear(&paint, UNCOLORED);
 
 	/*Write strings to the buffer */
-	Paint_DrawStringAt(&paint, 30, 70, "test", &Font12, UNCOLORED);
-	Paint_DrawStringAt(&paint, 30, 100, "Pression : hPa", &Font12, UNCOLORED);
-	Paint_DrawStringAt(&paint, 30, 130, "Humidité : %%", &Font12, UNCOLORED);
-	Paint_DrawStringAt(&paint, 30, 160, "Vitesse du vent : km/h", &Font12, UNCOLORED);
-	Paint_DrawStringAt(&paint, 30, 190, "Tension moyenne : V", &Font12, UNCOLORED);
-	Paint_DrawStringAt(&paint, 30, 220, "Puissance moyenne : W", &Font12, UNCOLORED);
-	EPD_DisplayFrame(&epd, frame_buffer);
+	Paint_DrawStringAt(&paint, 30, 70, "test", &Font12, COLORED);
+	Paint_DrawStringAt(&paint, 30, 100, humichar, &Font12, COLORED);
+	Paint_DrawStringAt(&paint, 30, 130, "Humidite : %%", &Font12, COLORED);
+	Paint_DrawStringAt(&paint, 30, 160, "Vitesse du vent : km/h", &Font12, COLORED);
+	Paint_DrawStringAt(&paint, 30, 190, "Tension moyenne : V", &Font12, COLORED);
+	Paint_DrawStringAt(&paint, 30, 220, "Puissance moyenne : W", &Font12, COLORED);
+	EPD_DisplayFrameMem(&epd, frame_buffer, gImage_testwind);
+	//EPD_DisplayFrame(&epd, frame_buffer);
 
 	/*
 	while(1)

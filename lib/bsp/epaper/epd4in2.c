@@ -156,6 +156,8 @@ void EPD_SetLut(EPD* epd) {
   } 
 }
 
+
+
 void EPD_DisplayFrame(EPD* epd, const unsigned char* frame_buffer) {
   EPD_SendCommand(epd, RESOLUTION_SETTING);
   EPD_SendData(epd, EPD_WIDTH >> 8);        
@@ -188,6 +190,48 @@ void EPD_DisplayFrame(EPD* epd, const unsigned char* frame_buffer) {
   EPD_DelayMs(epd, 100);
   EPD_WaitUntilIdle(epd);
 }
+
+void EPD_DisplayFrameMem(EPD* epd, unsigned char* frame_buffer, const unsigned char* frame_static) {
+
+	EPD_SendCommand(epd, RESOLUTION_SETTING);
+	  EPD_SendData(epd, EPD_WIDTH >> 8);
+	  EPD_SendData(epd, EPD_WIDTH & 0xff);
+	  EPD_SendData(epd, EPD_HEIGHT >> 8);
+	  EPD_SendData(epd, EPD_HEIGHT & 0xff);
+
+	  EPD_SendCommand(epd, VCM_DC_SETTING);
+	  EPD_SendData(epd, 0x12);
+
+	  EPD_SendCommand(epd, VCOM_AND_DATA_INTERVAL_SETTING);
+	  EPD_SendCommand(epd, 0x97);    //VBDF 17|D7 VBDW 97  VBDB 57  VBDF F7  VBDW 77  VBDB 37  VBDR B7
+
+	  if (frame_buffer != NULL) {
+	    EPD_SendCommand(epd, DATA_START_TRANSMISSION_1);
+	    for(int i = 0; i < EPD_WIDTH * EPD_HEIGHT / 8; i++) {
+
+	      EPD_SendData(epd, 0xFF);      // bit set: white, bit reset: black
+	    }
+	    EPD_DelayMs(epd, 2);
+	    EPD_SendCommand(epd, DATA_START_TRANSMISSION_2);
+	    int j = 0;
+	    for(int i = 0; i < 400 * 300 / 8; i++) {
+	    	if(j<25){
+	    		EPD_SendData(epd, frame_buffer[(j-0 )+25*(i/50)]);
+	    	}
+	    	else{
+	    		EPD_SendData(epd, frame_static[(j-25)+25*(i/50)]);
+	    	}
+	    	j=(j>=49)?0:(j+1);
+	    }
+	    EPD_DelayMs(epd, 2);
+	  }
+
+	  EPD_SetLut(epd);
+
+	  EPD_SendCommand(epd, DISPLAY_REFRESH);
+	  EPD_DelayMs(epd, 100);
+	  EPD_WaitUntilIdle(epd);
+	}
 
 /* After this command is transmitted, the chip would enter the deep-sleep mode to save power. 
    The deep sleep mode would return to standby by hardware reset. The only one parameter is a 

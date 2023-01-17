@@ -20,7 +20,7 @@ uint8_t humidity;
 uint32_t *moyenneTIP;
 //char temperatureC;
 //char humiditeC;
-//char pressionC;
+char* pressionC;
 //char tensionC;
 //char puissanceC;
 //char vitesseC;
@@ -38,15 +38,15 @@ void process_ms(void)
 int main(void)
 {
 	//Initialisation de la couche logicielle HAL (Hardware Abstraction Layer)
-	//Cette ligne doit rester la première étape de la fonction main().
+	//Cette ligne doit rester la premiï¿½re ï¿½tape de la fonction main().
 	HAL_Init();
 
-	//Initialisation de l'UART2 à la vitesse de 115200 bauds/secondes (92kbits/s) PA2 : Tx  | PA3 : Rx.
-		//Attention, les pins PA2 et PA3 ne sont pas reliées jusqu'au connecteur de la Nucleo.
-		//Ces broches sont redirigées vers la sonde de débogage, la liaison UART étant ensuite encapsulée sur l'USB vers le PC de développement.
+	//Initialisation de l'UART2 ï¿½ la vitesse de 115200 bauds/secondes (92kbits/s) PA2 : Tx  | PA3 : Rx.
+		//Attention, les pins PA2 et PA3 ne sont pas reliï¿½es jusqu'au connecteur de la Nucleo.
+		//Ces broches sont redirigï¿½es vers la sonde de dï¿½bogage, la liaison UART ï¿½tant ensuite encapsulï¿½e sur l'USB vers le PC de dï¿½veloppement.
 	UART_init(UART2_ID,115200);
 
-	//"Indique que les printf sortent vers le périphérique UART2."
+	//"Indique que les printf sortent vers le pï¿½riphï¿½rique UART2."
 	SYS_set_std_usart(UART2_ID, UART2_ID, UART2_ID);
 
 	//Initialisation du port de la led Verte (carte Nucleo)
@@ -55,34 +55,35 @@ int main(void)
 	//Initialisation du port du bouton bleu (carte Nucleo)
 	BSP_GPIO_PinCfg(BLUE_BUTTON_GPIO, BLUE_BUTTON_PIN, GPIO_MODE_INPUT,GPIO_PULLUP,GPIO_SPEED_FREQ_HIGH);
 
-	//On ajoute la fonction process_ms à la liste des fonctions appelées automatiquement chaque ms par la routine d'interruption du périphérique SYSTICK
+	//On ajoute la fonction process_ms ï¿½ la liste des fonctions appelï¿½es automatiquement chaque ms par la routine d'interruption du pï¿½riphï¿½rique SYSTICK
 	Systick_add_callback_function(&process_ms);
 	//EPAPER_demo();
 	//Vent_init();
-	//ADC_init(); //Pour la moyenne de tension, intensité et puissance
+	//ADC_init(); //Pour la moyenne de tension, intensitï¿½ et puissance
 
-	while(1)	//boucle de tâche de fond
+	while(1)	//boucle de tï¿½che de fond
 	{
 
 	printf("BMP180 : \n\n");
-		//valeur_BMP180 = BMP180_demo();
+		valeur_BMP180 = BMP180_demo();
 		//printf("(main)Temp: %2ld degrees\nPressure: %6ld hePascals\n\n",valeur_BMP180[0],valeur_BMP180[1]);
-		//pressionC = ("Pression : ",(char)valeur_BMP180[0],"hPa");
+		pressionC = "Pression : ";
+		printf(pressionC);
 		//temperatureC = ("Temperature : ",(char)valeur_BMP180[1],"hpa");
 		//printf("DTH_11 : \n\n");
 		//humidity = humidite_valeur();
-		//printf("(main) DHT11 humidité=%d%%",humidity);
+		//printf("(main) DHT11 humiditï¿½=%d%%",humidity);
 		//printf("Vitesse du vent : \n\n");
 		//wind_speed = Vent_vitesse(); // ATTENTION NECESSITE L'ACTIVATION DE VENT_INIT()
 		//printf("vent : | vitesse = %d km/h\n", wind_speed);
-		//printf("Mesure tension intensité et puissance : \n\n");
+		//printf("Mesure tension intensitï¿½ et puissance : \n\n");
 		//if (vitesse != 0)
 		//tension();
 		//moyenneTIP = moyenne(); // ATENTION activer ADC_init() avec
-		//printf(" (main) La tension moyenne est : %d.%02dV\nL'intensité moyenne est : %dmA\nLa puissance moyenne générée est : %dmW\n", moyenneTIP[0], moyenneTIP[1], moyenneTIP[2], moyenneTIP[3]);
-		//if refresh_dealy //mise a jour de l'écran toutes les 10min
+		//printf(" (main) La tension moyenne est : %d.%02dV\nL'intensitï¿½ moyenne est : %dmA\nLa puissance moyenne gï¿½nï¿½rï¿½e est : %dmW\n", moyenneTIP[0], moyenneTIP[1], moyenneTIP[2], moyenneTIP[3]);
+		//if refresh_dealy //mise a jour de l'ï¿½cran toutes les 10min
 
-		EPAPER_display_info();
+		EPAPER_display_info(pressionC);
 		HAL_Delay(5000);
 
 	}

@@ -8,6 +8,7 @@
 #ifndef EPAPER_H_
 #define EPAPER_H_
 
+int EPAPER_display_info(char humichar);
 
 
 #endif /* EPAPER_H_ */
