@@ -27,10 +27,10 @@
 #include "epaper/epdif.h"
 #include "epaper/epdpaint.h"
 #include "image_epaper.h"
-#define COLORED      0
-#define UNCOLORED    1
+#define COLORED      1
+#define UNCOLORED    0
 
-int EPAPER_display_info(char humichar)
+int EPAPER_display_info(char preschar[30],char tempchar[30],char humichar[30],char vitchar[30],char tenschar[30],char  puischar[30])
 {
 	//static unsigned char frame_buffer[(EPD_WIDTH * EPD_HEIGHT / 8)];
 	static unsigned char frame_buffer[(200*300 / 8)]; //7500
@@ -42,7 +42,7 @@ int EPAPER_display_info(char humichar)
 	}
 
 	for(int i = 0; i<7500; i++){
-		frame_buffer[i] = gImage_testText[i];
+		frame_buffer[i] = gImage_blank[i];
 	}
 
 	for(int i = 0; i<300; i++)
@@ -55,13 +55,19 @@ int EPAPER_display_info(char humichar)
 	//Paint_Clear(&paint, UNCOLORED);
 
 	/*Write strings to the buffer */
-	Paint_DrawStringAt(&paint, 30, 70, "test", &Font12, COLORED);
-	Paint_DrawStringAt(&paint, 30, 100, humichar, &Font12, COLORED);
-	Paint_DrawStringAt(&paint, 30, 130, "Humidite : %%", &Font12, COLORED);
-	Paint_DrawStringAt(&paint, 30, 160, "Vitesse du vent : km/h", &Font12, COLORED);
-	Paint_DrawStringAt(&paint, 30, 190, "Tension moyenne : V", &Font12, COLORED);
-	Paint_DrawStringAt(&paint, 30, 220, "Puissance moyenne : W", &Font12, COLORED);
-	EPD_DisplayFrameMem(&epd, frame_buffer, gImage_testwind);
+	Paint_DrawStringAt(&paint, 30, 70,preschar , &Font12, COLORED);
+	Paint_DrawStringAt(&paint, 30, 100, tempchar, &Font12, COLORED);
+	Paint_DrawStringAt(&paint, 30, 130, humichar, &Font12, COLORED);
+	Paint_DrawStringAt(&paint, 30, 160, vitchar, &Font12, COLORED);
+	Paint_DrawStringAt(&paint, 30, 190, tenschar, &Font12, COLORED);
+	Paint_DrawStringAt(&paint, 30, 220, puischar, &Font12, COLORED);
+
+	Animation_State_Machine();
+	//EPD_DisplayFrameMem(&epd, frame_buffer, gImage_eole1);
+
+
+
+
 	//EPD_DisplayFrame(&epd, frame_buffer);
 
 	/*
@@ -83,8 +89,48 @@ int EPAPER_display_info(char humichar)
 		HAL_Delay(2000);
 	}
 */
-}
+	static void Animation_State_Machine(){
+			{
+				typedef enum
+				{
+				IMAGE_1,
+				IMAGE_2,
+				IMAGE_3,
+				IMAGE_4,
+				}state_e;
 
+				static  state_e previous_state = IMAGE_1;
+				static  state_e state = IMAGE_1;
+
+				switch(state)
+				{
+				case IMAGE_1:
+					EPD_DisplayFrameMem(&epd, frame_buffer, gImage_eole1);
+					state = IMAGE_2;
+					break;
+
+				case IMAGE_2:
+					EPD_DisplayFrameMem(&epd, frame_buffer, gImage_eole2);
+					state = IMAGE_3;
+					break;
+
+				case IMAGE_3:
+					EPD_DisplayFrameMem(&epd, frame_buffer, gImage_eole3);
+					state = IMAGE_4;
+					break;
+
+				case IMAGE_4:
+					EPD_DisplayFrameMem(&epd, frame_buffer, gImage_eole3);
+					state = IMAGE_1;
+					break;
+				default:
+					break;
+
+				}
+			}
+		}
+
+}
 
 
 #endif
