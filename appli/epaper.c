@@ -30,11 +30,15 @@
 #define COLORED      1
 #define UNCOLORED    0
 
+
+static void Animation_State_Machine();
+static unsigned char frame_buffer[(200*300 / 8)]; //7500
+EPD epd;
+
 int EPAPER_display_info(char preschar[30],char tempchar[30],char humichar[30],char vitchar[30],char tenschar[30],char  puischar[30])
 {
 	//static unsigned char frame_buffer[(EPD_WIDTH * EPD_HEIGHT / 8)];
-	static unsigned char frame_buffer[(200*300 / 8)]; //7500
-	EPD epd;
+
 	if (EPD_Init(&epd) != 0)
 	{
 		printf("e-Paper init failed\n");
@@ -89,8 +93,11 @@ int EPAPER_display_info(char preschar[30],char tempchar[30],char humichar[30],ch
 		HAL_Delay(2000);
 	}
 */
-	static void Animation_State_Machine(){
-			{
+
+
+}
+
+static void Animation_State_Machine(){
 				typedef enum
 				{
 				IMAGE_1,
@@ -127,11 +134,7 @@ int EPAPER_display_info(char preschar[30],char tempchar[30],char humichar[30],ch
 					break;
 
 				}
-			}
-		}
-
 }
-
 
 #endif
 
