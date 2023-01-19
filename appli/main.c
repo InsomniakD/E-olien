@@ -53,12 +53,6 @@ int main(void)
 	//"Indique que les printf sortent vers le p�riph�rique UART2."
 	SYS_set_std_usart(UART2_ID, UART2_ID, UART2_ID);
 
-	//Initialisation du port de la led Verte (carte Nucleo)
-	BSP_GPIO_PinCfg(LED_GREEN_GPIO, LED_GREEN_PIN, GPIO_MODE_OUTPUT_PP,GPIO_NOPULL,GPIO_SPEED_FREQ_HIGH);
-
-	//Initialisation du port du bouton bleu (carte Nucleo)
-	BSP_GPIO_PinCfg(BLUE_BUTTON_GPIO, BLUE_BUTTON_PIN, GPIO_MODE_INPUT,GPIO_PULLUP,GPIO_SPEED_FREQ_HIGH);
-
 	//On ajoute la fonction process_ms � la liste des fonctions appel�es automatiquement chaque ms par la routine d'interruption du p�riph�rique SYSTICK
 	Systick_add_callback_function(&process_ms);
 	Vent_init();
@@ -85,7 +79,7 @@ int main(void)
 	sprintf(puissanceC, "Puissance M : %d.%02dW", moyenneTIP[2], moyenneTIP[3]);
 	//printf(" (main) La tension moyenne est : %d.%02dV\nL'intensit� moyenne est : %dmA\nLa puissance moyenne g�n�r�e est : %dmW\n", moyenneTIP[0], moyenneTIP[1], moyenneTIP[2], moyenneTIP[3]);
 
-	//if refresh_dealy //mise a jour de l'�cran toutes les 10min
+	//mise a jour de l'�cran toutes les 10min
 	EPAPER_display_info(pressionC,temperatureC,humiditeC,vitesseC,tensionC,puissanceC);
 
 	beginM = HAL_GetTick();
