@@ -41,7 +41,7 @@ int EPAPER_display_info(char preschar[30],char tempchar[30],char humichar[30],ch
 
 	if (EPD_Init(&epd) != 0)
 	{
-		printf("e-Paper init failed\n");
+		//printf("e-Paper init failed\n");
 		while(1);
 	}
 
@@ -127,7 +127,7 @@ static void Animation_State_Machine(){
 					break;
 
 				case IMAGE_4:
-					EPD_DisplayFrameMem(&epd, frame_buffer, gImage_eole3);
+					EPD_DisplayFrameMem(&epd, frame_buffer, gImage_eole4);
 					state = IMAGE_1;
 					break;
 				default:

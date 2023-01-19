@@ -30,7 +30,7 @@ void humidite_init(GPIO_TypeDef * GPIOx, uint16_t GPIO_PIN_x)
 	BSP_GPIO_PinCfg(DHT11_gpio, DHT11_pin, GPIO_MODE_OUTPUT_OD, GPIO_PULLUP, GPIO_SPEED_FREQ_HIGH);
 	initialized = TRUE;
 }
-#define NB_BITS	41	//le bit de poids fort n'appartiennent pas aux données utiles. (il s'agit de la réponse du capteur avant la trame utile).
+#define NB_BITS	41	//le bit de poids fort n'appartiennent pas aux donnï¿½es utiles. (il s'agit de la rï¿½ponse du capteur avant la trame utile).
 static uint32_t rising_time_us = 0;
 static volatile bool_e flag_end_of_reception = FALSE;
 static volatile uint64_t trame;
@@ -52,7 +52,7 @@ uint8_t humidite_valeur(void)
 		switch(humidite_state_machine_get_datas(&humidity_int, &humidity_dec, &temperature_int, &temperature_dec))
 		{
 			case END_OK:
- 				//debug_printf("DHT11 humidité=%d,%d%% | temperature=%d,%d°\n",humidity_int, humidity_dec, temperature_int, temperature_dec);
+ 				//debug_printf("DHT11 humiditï¿½=%d,%d%% | temperature=%d,%dï¿½\n",humidity_int, humidity_dec, temperature_int, temperature_dec);
  				HAL_Delay(1500);
 				//break;
 				return humidity_int;
@@ -92,10 +92,10 @@ static void humidite_callback_exti(uint16_t pin)
 			{
 				rising_time_us = current_time;				//on enregistre la date du front montant (en microsecondes)
 			}
-			else if(rising_time_us)	//afin d'éviter le premier front descendant qui suit le lâcher du bus par le microcontrôleur.
-			{						//on ne considère le front descendant que si on a vu le front montant qui le précède.
+			else if(rising_time_us)	//afin d'ï¿½viter le premier front descendant qui suit le lï¿½cher du bus par le microcontrï¿½leur.
+			{						//on ne considï¿½re le front descendant que si on a vu le front montant qui le prï¿½cï¿½de.
 				uint32_t falling_time_us;
-				falling_time_us = current_time; //on conserve la différence entre le front montant et le front descendant
+				falling_time_us = current_time; //on conserve la diffï¿½rence entre le front montant et le front descendant
 
 				if(falling_time_us < rising_time_us)
 				{
@@ -108,7 +108,7 @@ static void humidite_callback_exti(uint16_t pin)
 				}
 				index++;
 			}
-/*	//ce code permet de visualiser sur une sortie les instants d'exécution de cette IT.
+/*	//ce code permet de visualiser sur une sortie les instants d'exï¿½cution de cette IT.
 			HAL_GPIO_WritePin(LED_GREEN_GPIO, LED_GREEN_PIN, 1);
 			Delay_us(1);
 			HAL_GPIO_WritePin(LED_GREEN_GPIO, LED_GREEN_PIN, 0);
@@ -153,7 +153,7 @@ running_e humidite_state_machine_get_datas(uint8_t * humidity_int, uint8_t * hum
 			}
 			else
 			{
-				debug_printf("You should call DHT11_init(...)\n");
+				//debug_printf("You should call DHT11_init(...)\n");
 				ret = END_ERROR;
 			}
 			break;
@@ -176,7 +176,7 @@ running_e humidite_state_machine_get_datas(uint8_t * humidity_int, uint8_t * hum
 				EXTI_ack_it(EXTI_gpiopin_to_pin_number(DHT11_pin));
 				EXTIT_enable(EXTI_gpiopin_to_pin_number(DHT11_pin));
 				state = WAIT_DHT_ANSWER;
-				//début de la surveillance des fronts
+				//dï¿½but de la surveillance des fronts
 			}
 			break;
 		case WAIT_DHT_ANSWER:
@@ -199,7 +199,7 @@ running_e humidite_state_machine_get_datas(uint8_t * humidity_int, uint8_t * hum
 			state = WAIT_BEFORE_NEXT_ASK;
 			break;
 		case END_OF_RECEPTION:
-			debug_printf("%llx\n",trame);
+			//debug_printf("%llx\n",trame);
 			if(compute_frame(trame, humidity_int, humidity_dec, temperature_int, temperature_dec))
 				ret = END_OK;
 			else

@@ -52,7 +52,7 @@ void tension(void)
 	{
 		valueT = ADC_getValue(ADC_TENSION_CHANNEL);
 		valeurT=((uint32_t)(valueT)*11*3300)/4096;//on le convertit en mV pour pouvoir faire la conversion et rester en entier, on a 3300 mV en max, on multiplie par 11 parce que c'est la valeur de notre pont diviseur de tension, et on divise par 4086 parce que on aura une valeur sur 4096
-		debug_printf("La tension est : %d.%02dV\n", valeurT/1000,(valeurT%1000)/10);//On affiche la valeur en V, en affichant le nombre, en mettant une virgule après 2 chiffres(conversion en V), et on affiche les valeurs après .
+		//debug_printf("La tension est : %d.%02dV\n", valeurT/1000,(valeurT%1000)/10);//On affiche la valeur en V, en affichant le nombre, en mettant une virgule aprï¿½s 2 chiffres(conversion en V), et on affiche les valeurs aprï¿½s .
 	}
 
 void intensite(void)
@@ -60,11 +60,11 @@ void intensite(void)
 		while(1)
 			{HAL_Delay(200);
 			valueI = ADC_getValue(ADC_INTENSITE_CHANNEL);
-			debug_printf("L'intensité est : %dmA\n", valueI);// On divise par la résistance de 1ohm, donc on divise par 1; et on obitent une valeur directement en mA
+			//debug_printf("L'intensitï¿½ est : %dmA\n", valueI);// On divise par la rï¿½sistance de 1ohm, donc on divise par 1; et on obitent une valeur directement en mA
 			}
 
 		//valeurI=((uint32_t)(valueI)*11*3300)/4096;//on le convertit en mV pour pouvoir faire la conversion et rester en entier, on a 3300 mV en max, on multiplie par 11 parce que c'est la valeur de notre pont diviseur de tension, et on divise par 4086 parce que on aura une valeur sur 4096
-		//debug_printf("L'intensité est : %dmA\n", valeurI);// On divise par la résistance de 1ohm, donc on divise par 1; et on obitent une valeur directement en mA
+		//debug_printf("L'intensitï¿½ est : %dmA\n", valeurI);// On divise par la rï¿½sistance de 1ohm, donc on divise par 1; et on obitent une valeur directement en mA
 	}
 
 void tension_intensite_puissance(void)
@@ -78,9 +78,9 @@ void tension_intensite_puissance(void)
 				valeurT=((uint32_t)(valueT)*11*3300)/4096;//on le convertit en mV pour pouvoir faire la conversion et rester en entier, on a 3300 mV en max, on multiplie par 11 parce que c'est la valeur de notre pont diviseur de tension, et on divise par 4086 parce que on aura une valeur sur 4096
 				valeurI=((uint32_t)(valueI)*11*3300)/4096;
 				valeurP=valeurT*valeurI;
-				debug_printf("La tension est : %d.%02dV\n", valeurT/1000,(valeurT%1000)/10);
-				debug_printf("L'intensité est : %dmA\n", valeurI);
-				debug_printf("La puissance générée est : %dµW\n", valeurP);
+				//debug_printf("La tension est : %d.%02dV\n", valeurT/1000,(valeurT%1000)/10);
+				//debug_printf("L'intensitï¿½ est : %dmA\n", valeurI);
+				//debug_printf("La puissance gï¿½nï¿½rï¿½e est : %dï¿½W\n", valeurP);
 				}
 	}
 
@@ -99,7 +99,7 @@ uint32_t *moyenne(void)
 				addP=addP+valeurP;
 				i++;
 				if(i>=32){
-					i=0; //remise à zero du compteur
+					i=0; //remise ï¿½ zero du compteur
 					if(moyPrvsP==0 && moyPrvsT==0 && moyPrvsP==0){
 						moyT=addT/32;
 						moyI=addI/32;
@@ -118,7 +118,7 @@ uint32_t *moyenne(void)
 				}
 			else{
 				//return moyT, moyI, moyP;
-				debug_printf("La tension moyenne est : %d.%02dV\nL'intensité moyenne est : %dmA\nLa puissance moyenne générée est : %dmW\n", moyT/1000,(moyT%1000)/10, moyI, moyP/10000);
+				//debug_printf("La tension moyenne est : %d.%02dV\nL'intensitï¿½ moyenne est : %dmA\nLa puissance moyenne gï¿½nï¿½rï¿½e est : %dmW\n", moyT/1000,(moyT%1000)/10, moyI, moyP/10000);
 				valeurs_moyennes[0] = moyT/1000;
 				valeurs_moyennes[1] = (moyT%1000)/10;
 				valeurs_moyennes[2] = moyI;
