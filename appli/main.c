@@ -64,58 +64,57 @@ int main(void)
 	Vent_init();
 	ADC_init(); //Pour la moyenne de tension, intensit� et puissance
 
-		//boucle de t�che de fond
 
-		printf("\nBMP180 : \n");
-		valeur_BMP180 = BMP180_demo();
-		//printf("(main)Temp: %2ld degrees\nPressure: %6ld hePascals\n\n",valeur_BMP180[0],valeur_BMP180[1]);
-		sprintf(pressionC, "Pression :%6ld hPa",valeur_BMP180[1]);
-		//printf(pressionC);
-		sprintf(temperatureC, "Temperature: %2ld deg",valeur_BMP180[0]);
-		//printf("DTH_11 : \n\n");
-		humidity = humidite_valeur();
-		//printf("(main) DHT11 humidit�=%d%%",humidity)
-		sprintf(humiditeC, "Taux d'humiditee : %d%c",humidity,'%');
-		//printf("Vitesse du vent : \n\n");
-		wind_speed = Vent_vitesse(); // ATTENTION NECESSITE L'ACTIVATION DE VENT_INIT()
-		//printf("vent : | vitesse = %d km/h\n", wind_speed);
-		sprintf(vitesseC, "Vitesse vent : %d km/h",wind_speed);
-		//if (vitesse != 0)
-		moyenneTIP = moyenne(); // ATENTION activer ADC_init() avec
-		sprintf(tensionC, "Tension M : %d.%02dV", moyenneTIP[0], moyenneTIP[1]);
-		sprintf(puissanceC, "Puissance M : %d.%02dW", moyenneTIP[2], moyenneTIP[3]);
-		//printf(" (main) La tension moyenne est : %d.%02dV\nL'intensit� moyenne est : %dmA\nLa puissance moyenne g�n�r�e est : %dmW\n", moyenneTIP[0], moyenneTIP[1], moyenneTIP[2], moyenneTIP[3]);
+	//printf("\nBMP180 : \n");
+	valeur_BMP180 = BMP180_demo();
+	//printf("(main)Temp: %2ld degrees\nPressure: %6ld hePascals\n\n",valeur_BMP180[0],valeur_BMP180[1]);
+	sprintf(pressionC, "Pression :%6ld hPa",valeur_BMP180[1]);
+	//printf(pressionC);
+	sprintf(temperatureC, "Temperature: %2ld deg",valeur_BMP180[0]);
+	//printf("DTH_11 : \n\n");
+	humidity = humidite_valeur();
+	//printf("(main) DHT11 humidit�=%d%%",humidity)
+	sprintf(humiditeC, "Taux d'humiditee : %d%c",humidity,'%');
+	//printf("Vitesse du vent : \n\n");
+	wind_speed = Vent_vitesse(); // ATTENTION NECESSITE L'ACTIVATION DE VENT_INIT()
+	//printf("vent : | vitesse = %d km/h\n", wind_speed);
+	sprintf(vitesseC, "Vitesse vent : %d km/h",wind_speed);
+	//if (vitesse != 0)
+	moyenneTIP = moyenne(); // ATENTION activer ADC_init() avec
+	sprintf(tensionC, "Tension M : %d.%02dV", moyenneTIP[0], moyenneTIP[1]);
+	sprintf(puissanceC, "Puissance M : %d.%02dW", moyenneTIP[2], moyenneTIP[3]);
+	//printf(" (main) La tension moyenne est : %d.%02dV\nL'intensit� moyenne est : %dmA\nLa puissance moyenne g�n�r�e est : %dmW\n", moyenneTIP[0], moyenneTIP[1], moyenneTIP[2], moyenneTIP[3]);
 
-		//if refresh_dealy //mise a jour de l'�cran toutes les 10min
-		EPAPER_display_info(pressionC,temperatureC,humiditeC,vitesseC,tensionC,puissanceC);
+	//if refresh_dealy //mise a jour de l'�cran toutes les 10min
+	EPAPER_display_info(pressionC,temperatureC,humiditeC,vitesseC,tensionC,puissanceC);
 
-		beginM = HAL_GetTick();
-		durationM = 5000;
+	beginM = HAL_GetTick();
+	durationM = 2000;
 
-		while(1)
+	while(1)
+	{
+		if(HAL_GetTick() - beginM < durationM)
+			;
+		else
 		{
-			if(HAL_GetTick() - beginM < durationM)
-				;
-			else
-			{
-			valeur_BMP180 = BMP180_demo();
-			sprintf(pressionC, "Pression :%6ld hPa",valeur_BMP180[1]);
-			sprintf(temperatureC, "Temperature: %2ld deg",valeur_BMP180[0]);
-			humidity = humidite_valeur();
-			sprintf(humiditeC, "Taux d'humiditee : %d%c",humidity,'%');
-			wind_speed = Vent_vitesse();
-			sprintf(vitesseC, "Vitesse vent : %d km/h",wind_speed);
-			moyenneTIP = moyenne();
-			sprintf(tensionC, "Tension M : %d.%02dV", moyenneTIP[0], moyenneTIP[1]);
-			sprintf(puissanceC, "Puissance M : %d.%02dW", moyenneTIP[2], moyenneTIP[3]);
-			EPAPER_display_info(pressionC,temperatureC,humiditeC,vitesseC,tensionC,puissanceC);
-			beginM = HAL_GetTick();
-			}
-
-
-		//HAL_Delay(5000);
-
+		valeur_BMP180 = BMP180_demo();
+		sprintf(pressionC, "Pression :%6ld hPa",valeur_BMP180[1]);
+		sprintf(temperatureC, "Temperature: %2ld deg",valeur_BMP180[0]);
+		humidity = humidite_valeur();
+		sprintf(humiditeC, "Taux d'humiditee : %d%c",humidity,'%');
+		wind_speed = Vent_vitesse();
+		sprintf(vitesseC, "Vitesse vent : %d km/h",wind_speed);
+		moyenneTIP = moyenne();
+		sprintf(tensionC, "Tension M : %d.%02dV", moyenneTIP[0], moyenneTIP[1]);
+		sprintf(puissanceC, "Puissance M : %d.%02dmW", moyenneTIP[2], moyenneTIP[3]);
+		EPAPER_display_info(pressionC,temperatureC,humiditeC,vitesseC,tensionC,puissanceC);
+		beginM = HAL_GetTick();
 		}
+
+
+	//HAL_Delay(5000);
+
+	}
 
 
 
