@@ -1,9 +1,15 @@
-/*
- * temperature_humidite.c
- *
- *  Created on: 24 nov. 2022
- *      Author: timot
- */
+/**
+  *
+  * \file    humidite.c
+  * \author  Timothé.D
+  * \version V1.0
+  * \date    1 December 2022
+  * \brief   Programme qui mesure le taux d'humidité
+  *
+  *Permets par  le biais de plusieurs fonctions de mesurer l'humidité ambiante.
+  *
+  *
+*/
 
 #include "config.h"
 #if USE_DHT11

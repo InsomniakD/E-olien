@@ -1,9 +1,15 @@
-/*
- * tension_intensite.c
- *
- *  Created on: 24 nov. 2022
- *      Author: timot
- */
+/**
+  *
+  * \file    humidite.c
+  * \author  Thomas.C
+  * \version V1.0
+  * \date    1 December 2022
+  * \brief   Programme qui mesure la vitesse du vent
+  *
+  *Permets par le biais de plusieurs fonctions de mesurer la vitesse du vent.
+  *
+  *
+*/
 
 
 //test
@@ -48,6 +54,14 @@ uint32_t i=0;
 
 uint32_t valeurs_moyennes[4];
 
+
+
+/**
+ * \fn void tension(void)
+ * \brief Fonction qui permet le calcul et l'affichage de la tension.
+ *
+ */
+
 void tension(void)
 	{
 		valueT = ADC_getValue(ADC_TENSION_CHANNEL);
@@ -55,6 +69,12 @@ void tension(void)
 		//debug_printf("La tension est : %d.%02dV\n", valeurT/1000,(valeurT%1000)/10);//On affiche la valeur en V, en affichant le nombre, en mettant une virgule apr�s 2 chiffres(conversion en V), et on affiche les valeurs apr�s .
 	}
 
+
+/**
+ * \fn void intensite(void)
+ * \brief Fonction qui permet le calcul et l'affichage de l'intensité.
+ *
+ */
 void intensite(void)
 	{
 		while(1)
@@ -66,6 +86,12 @@ void intensite(void)
 		//valeurI=((uint32_t)(valueI)*11*3300)/4096;//on le convertit en mV pour pouvoir faire la conversion et rester en entier, on a 3300 mV en max, on multiplie par 11 parce que c'est la valeur de notre pont diviseur de tension, et on divise par 4086 parce que on aura une valeur sur 4096
 		//debug_printf("L'intensit� est : %dmA\n", valeurI);// On divise par la r�sistance de 1ohm, donc on divise par 1; et on obitent une valeur directement en mA
 	}
+
+/**
+ * \fn void tension_intensite_puissance(void)
+ * \brief Fonction qui permet le calcul et l'affichage de la tension, l'intensité et la puissance.
+ *
+ */
 
 void tension_intensite_puissance(void)
 	{
@@ -84,6 +110,15 @@ void tension_intensite_puissance(void)
 				HAL_Delay(1000);
 				}
 	}
+
+/**
+ * \fn uint32_t *moyenne(void)
+ * \brief Fonction qui permet le calcul de la tension moyenne, l'intensité moyenne et la puissance moyenne
+ *
+ * \return valeurs_moyennes un tableau de valeur avec à l'emplacement 0 la valeur de la tenssion moyenne, à l'emplacement 1 la valeur de l'intensité moyenne et à l'emplacement 2 la valeur de la puissance moyenne.
+ */
+
+
 
 uint32_t *moyenne(void)
 	{

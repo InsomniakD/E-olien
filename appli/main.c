@@ -1,10 +1,14 @@
 /**
-  ******************************************************************************
-  * @file    main.c
-  * @author  Timothe
-  * @date    03-July-2019
-  * @brief   Default main function.
-  ******************************************************************************
+  *
+  * \file    humidite.c
+  * \author  Thomas C., Timothé D.
+  * \version V1.0
+  * \date    1 December 2022
+  * \brief   Programme principal
+  *
+  *Permets l'appel des différentes fonctions situées dans les différents programmes.
+  *
+  *
 */
 #include "stm32f1xx_hal.h"
 #include "stm32f1_uart.h"
@@ -38,8 +42,16 @@ void process_ms(void)
 		t--;
 }
 
+/**
+ * \fn void main(void)
+ * \brief Fonction principale du projet.
+ *
+ *Permets l'initialisation des différents programmes et capteurs.
+ *Elle appele également les différents programmes pour faire les mesures grace aux capteurs et fait appel à la
+ *la  fonction d'affichage de l'epaper pour afficher les données.
+ */
 
-int main(void)
+void main(void)
 {
 	//Initialisation de la couche logicielle HAL (Hardware Abstraction Layer)
 	//Cette ligne doit rester la premi�re �tape de la fonction main().

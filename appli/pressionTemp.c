@@ -1,9 +1,15 @@
-/*
- * pressionTemp.c
- *
- *  Created on: 24 nov. 2022
- *      Author: timot
- */
+/**
+  *
+  * \file    humidite.c
+  * \author  TimothÃ©.D
+  * \version V1.0
+  * \date    1 December 2022
+  * \brief   Programme qui mesure la pression et la temperature
+  *
+  *Permets par le biais de plusieurs fonctions de mesurer la temperature et la pression.
+  *
+  *
+*/
 
 #include "pressionTemp.h"
 #include <stdio.h>
@@ -21,7 +27,7 @@
 #define BMP180_1_101325 ((float) 0.00000986923266726)
 
 uint32_t variables[2];
-//Fonction blocante, pour démo.
+//Fonction blocante, pour dï¿½mo.
 
 uint32_t *BMP180_demo(void)
 {

@@ -1,9 +1,15 @@
-/*
- * anemometre.c
- *
- *  Created on: 24 nov. 2022
- *      Author: timot
- */
+/**
+  *
+  * \file    humidite.c
+  * \author  Timothé.D
+  * \version V1.0
+  * \date    1 December 2022
+  * \brief   Programme qui mesure la vitesse du vent
+  *
+  *Permets par le biais de plusieurs fonctions de mesurer la vitesse du vent.
+  *
+  *
+*/
 
 
 #include "config.h"
@@ -16,7 +22,7 @@
 #include "anemometre.h"
 #include "systick.h"
 
-#define TIMEOUT	5000 // edit when rotation count increase
+#define TIMEOUT	10000 // edit when rotation count increase
 
 float vitesse;
 uint32_t rotation;
@@ -25,10 +31,19 @@ uint32_t duration;
 uint32_t begin;
 uint32_t end;
 
+
+
+/**
+ * \fn void countup()
+ * \brief Fonction qui effectue le compte des rotation de l'anémomètre
+ *
+ *Si le nombre de rotation est 6 alors on définis la durée total pour laquel ces 6 tours on été éffectués
+ */
+
 void countup()
 {
   rotation++;
-  if(rotation == 6){  //time out when end is upper than uint 16
+  if(rotation >= 6){  //time out when end is upper than uint 16
   		end = HAL_GetTick();
   		duration = end - begin;
   		flag_duration = TRUE;
@@ -37,11 +52,28 @@ void countup()
   	}
 }
 
+
+/**
+ * \fn void Vent_init(void)
+ * \brief Fonction qui effectue l'initialisation du capteur
+ *
+ * Permets d'initialiser les ports et de créer un calback pour appeler à chaque impulsion provenant de
+ * l'anémomètre soit pour chaque tours.
+ */
+
 void Vent_init(void)
 {
 	BSP_GPIO_PinCfg(ANEMO_GPIO, ANEMO_PIN, GPIO_MODE_IT_RISING,GPIO_PULLUP,GPIO_SPEED_FREQ_HIGH);
 	EXTIT_set_callback(&countup, EXTI_gpiopin_to_pin_number(ANEMO_PIN), TRUE);
 }
+
+/**
+ * \fn int Vent_vitesse(void){
+ * \brief Fonction quic calcul la vitesse du vent.
+ *
+ * \return la vitesse du vent en km/h si duration à une valeur,  0 sinon.
+ *
+ */
 
 int Vent_vitesse(void){
 	while(1){

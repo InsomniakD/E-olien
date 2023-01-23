@@ -1,9 +1,17 @@
-/*
- * image_epaper.c
- *
- *  Created on: 10 janv. 2023
- *      Author: timot
- */
+/**
+  *
+  * \file    humidite.c
+  * \author  Timothé.D
+  * \version V1.0
+  * \date    06 Janvier 2023
+  * \brief   Définition des images pour l'epaper
+  *
+  *Programme dans lequel une partie de l'image est stocker sous forme de tableau
+  *pour être envoyé vers l'écran par la suite ces images sont fixes et sont très
+  *volumineuses.
+  *
+  *
+*/
 
 #include "config.h"
 #if USE_EPAPER

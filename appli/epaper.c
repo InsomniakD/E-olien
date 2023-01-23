@@ -1,19 +1,14 @@
-/*
- * epaper.c
- *
- *  Created on: 24 nov. 2022
- *      Author: timot
- */
-
-
 /**
-  ******************************************************************************
-  * @file    main.c
-  * @author  Ac6
-  * @version V1.0
-  * @date    01-December-2013
-  * @brief   Default main function.
-  ******************************************************************************
+  *
+  * \file    epaper.c
+  * \author  Timothé.D
+  * \version V1.0
+  * \date    1 December 2022
+  * \brief   Programme pour l'utilisation de l'Epaper
+  *
+  * Ce programme contient les fonctions principale utilisé par l'epaper.
+  *
+  *
 */
 #include "config.h"
 #if USE_EPAPER
@@ -35,7 +30,17 @@ static void Animation_State_Machine();
 static unsigned char frame_buffer[(200*300 / 8)]; //7500
 EPD epd;
 
-int EPAPER_display_info(char preschar[30],char tempchar[30],char humichar[30],char vitchar[30],char tenschar[30],char  puischar[30])
+
+/**
+ * \fn void EPAPER_display_info(char preschar[30],char tempchar[30],char humichar[30],char vitchar[30],char tenschar[30],char  puischar[30])
+ * \brief Fonction qui permet la modification des images et qui les envoie vers l'epaper.
+ *
+ *Les différents paramètres sont ecrit sur une moitié d'image ensuite la machine à états est appelé.
+ *
+ * \param preschar[30] (tableau de caractères char avec la valeur de la pression), tempchar[30] (tableau de caractères char avec la valeur de la temperature), humichar[30] (tableau de caratère char pour l'humidité), vitchar[30] (tableau de caratère char pour la vitesse), tenschar[30] (tableau de caratère char pour la tension moyenne), puischar[30] (tableau de caratère char pour la puissance moyenne)
+ */
+
+void EPAPER_display_info(char preschar[30],char tempchar[30],char humichar[30],char vitchar[30],char tenschar[30],char  puischar[30])
 {
 	//static unsigned char frame_buffer[(EPD_WIDTH * EPD_HEIGHT / 8)];
 
@@ -67,73 +72,66 @@ int EPAPER_display_info(char preschar[30],char tempchar[30],char humichar[30],ch
 	Paint_DrawStringAt(&paint, 30, 220, puischar, &Font12, COLORED);
 
 	Animation_State_Machine();
-	//EPD_DisplayFrameMem(&epd, frame_buffer, gImage_eole1);
-
-
-
-
-	//EPD_DisplayFrame(&epd, frame_buffer);
-
-	/*
-	while(1)
-	{
-		// Display the frame_buffer
-		EPD_DisplayFrame(&epd, gImage_eole_1);
-
-		HAL_Delay(2000);
-		// Display the image buffer
-		EPD_DisplayFrame(&epd, gImage_eole_2);
-
-		HAL_Delay(2000);
-
-		EPD_DisplayFrame(&epd,gImage_eole_3);
-		HAL_Delay(2000);
-
-		EPD_DisplayFrame(&epd,gImage_eole_4);
-		HAL_Delay(2000);
-	}
-*/
 
 
 }
 
+/**
+ * \fn static void Animation_State_Machine(
+ * \brief Fonction machine à états
+ *
+ *Elle permet une animation et procède par le biais de la librairie de l'epaper à l'envoie de l'image avec
+ *le texte (partie gauche de l'écran de l'epaper) et en même temps de l'image de l'eolienne (partie gauche
+ *de l'écran de l'epaper) à chaque état les données sont de nouveaux afficher et l'image de l'eolienne change
+ *(pâles qui tournent)
+ *
+ *
+ */
+
+
 static void Animation_State_Machine(){
-				typedef enum
-				{
-				IMAGE_1,
-				IMAGE_2,
-				IMAGE_3,
-				IMAGE_4,
-				}state_e;
 
-				static  state_e previous_state = IMAGE_1;
-				static  state_e state = IMAGE_1;
+	/**
+	 * \enum state_e
+	 * \brief Différente images a afficher.
+	 *
+	 * state_e est une série de constantes prédéfinie pour le changement d'état dans la machine à états
+	 */
+	typedef enum    //definition des états
+	{
+	IMAGE_1,
+	IMAGE_2,
+	IMAGE_3,
+	IMAGE_4,
+	}state_e;
 
-				switch(state)
-				{
-				case IMAGE_1:
-					EPD_DisplayFrameMem(&epd, frame_buffer, gImage_eole1);
-					state = IMAGE_2;
-					break;
+	static  state_e state = IMAGE_1; //définition de l'état initial
 
-				case IMAGE_2:
-					EPD_DisplayFrameMem(&epd, frame_buffer, gImage_eole2);
-					state = IMAGE_3;
-					break;
+	switch(state) //switch de changement d'état
+	{
+	case IMAGE_1:
+		EPD_DisplayFrameMem(&epd, frame_buffer, gImage_eole1); // Affichage d'une certaine image sur l'epaper
+		state = IMAGE_2;	//Passage à l'état suivant lors du prochain appel de la fonction
+		break;
 
-				case IMAGE_3:
-					EPD_DisplayFrameMem(&epd, frame_buffer, gImage_eole3);
-					state = IMAGE_4;
-					break;
+	case IMAGE_2:
+		EPD_DisplayFrameMem(&epd, frame_buffer, gImage_eole2); // affichage d'une certaine image sur l'epaper
+		state = IMAGE_3;	//Passage à l'état suivant lors du prochain appel de la fonction
+		break;
 
-				case IMAGE_4:
-					EPD_DisplayFrameMem(&epd, frame_buffer, gImage_eole4);
-					state = IMAGE_1;
-					break;
-				default:
-					break;
+	case IMAGE_3:
+		EPD_DisplayFrameMem(&epd, frame_buffer, gImage_eole3); // affichage d'une certaine image sur l'epaper
+		state = IMAGE_4;	//Passage à l'état suivant lors du prochain appel de la fonction
+		break;
 
-				}
+	case IMAGE_4:
+		EPD_DisplayFrameMem(&epd, frame_buffer, gImage_eole4); // affichage d'une certaine image sur l'epaper
+		state = IMAGE_1;	//Passage à l'état initial lors du prochain appel de la fonction
+		break;
+	default:
+		break;
+
+	}
 }
 
 #endif
