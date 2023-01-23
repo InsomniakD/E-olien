@@ -37,15 +37,11 @@ void countup()
   	}
 }
 
-
 void Vent_init(void)
 {
 	BSP_GPIO_PinCfg(ANEMO_GPIO, ANEMO_PIN, GPIO_MODE_IT_RISING,GPIO_PULLUP,GPIO_SPEED_FREQ_HIGH);
 	EXTIT_set_callback(&countup, EXTI_gpiopin_to_pin_number(ANEMO_PIN), TRUE);
 }
-
-
-
 
 int Vent_vitesse(void){
 	while(1){

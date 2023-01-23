@@ -37,6 +37,7 @@ EPD epd;
 
 int EPAPER_display_info(char preschar[30],char tempchar[30],char humichar[30],char vitchar[30],char tenschar[30],char  puischar[30])
 {
+	//static unsigned char frame_buffer[(EPD_WIDTH * EPD_HEIGHT / 8)];
 
 	if (EPD_Init(&epd) != 0)
 	{
@@ -45,16 +46,17 @@ int EPAPER_display_info(char preschar[30],char tempchar[30],char humichar[30],ch
 	}
 
 	for(int i = 0; i<7500; i++){
-		frame_buffer[i] = 0xFF;
+		frame_buffer[i] = gImage_blank[i];
 	}
 
-	//for(int i = 0; i<300; i++)
-		//frame_buffer[200*i/8] = 0xFF;
+	for(int i = 0; i<300; i++)
+		frame_buffer[200*i/8] = 0xFF;
 
 
 
 	Paint paint;
 	Paint_Init(&paint, frame_buffer, 200, 300);
+	//Paint_Clear(&paint, UNCOLORED);
 
 	/*Write strings to the buffer */
 	Paint_DrawStringAt(&paint, 30, 70,preschar , &Font12, COLORED);
@@ -65,6 +67,34 @@ int EPAPER_display_info(char preschar[30],char tempchar[30],char humichar[30],ch
 	Paint_DrawStringAt(&paint, 30, 220, puischar, &Font12, COLORED);
 
 	Animation_State_Machine();
+	//EPD_DisplayFrameMem(&epd, frame_buffer, gImage_eole1);
+
+
+
+
+	//EPD_DisplayFrame(&epd, frame_buffer);
+
+	/*
+	while(1)
+	{
+		// Display the frame_buffer
+		EPD_DisplayFrame(&epd, gImage_eole_1);
+
+		HAL_Delay(2000);
+		// Display the image buffer
+		EPD_DisplayFrame(&epd, gImage_eole_2);
+
+		HAL_Delay(2000);
+
+		EPD_DisplayFrame(&epd,gImage_eole_3);
+		HAL_Delay(2000);
+
+		EPD_DisplayFrame(&epd,gImage_eole_4);
+		HAL_Delay(2000);
+	}
+*/
+
+
 }
 
 static void Animation_State_Machine(){

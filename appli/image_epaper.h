@@ -12,6 +12,7 @@ extern const unsigned char gImage_eole1[];
 extern const unsigned char gImage_eole2[];
 extern const unsigned char gImage_eole3[];
 extern const unsigned char gImage_eole4[];
+extern const unsigned char gImage_blank[];
 
 
 
